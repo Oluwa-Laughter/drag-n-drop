@@ -1,3 +1,19 @@
+function AutoBind(_: any, __: string, descriptor: PropertyDescriptor) {
+  const originalMethod = descriptor.value;
+
+  const adjustedDescriptor: PropertyDescriptor = {
+    configurable: true,
+
+    get() {
+      const boundFn = originalMethod.bind(this);
+
+      return boundFn;
+    },
+  };
+
+  return adjustedDescriptor;
+}
+
 class App {
   templateEl: HTMLTemplateElement;
   hostEl: HTMLDivElement;
@@ -35,13 +51,14 @@ class App {
     this.attach();
   }
 
+  @AutoBind
   private submitHandler(e: Event) {
     e.preventDefault();
     console.log(this);
   }
 
   private config() {
-    this.element.addEventListener("submit", this.submitHandler.bind(this));
+    this.element.addEventListener("submit", this.submitHandler);
   }
 
   private attach() {
