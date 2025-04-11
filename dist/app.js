@@ -29,9 +29,32 @@ class App {
         this.config();
         this.attach();
     }
+    allUserInput() {
+        const enteredTitle = this.titleInputEl.value;
+        const enteredDescription = this.descriptionInputEl.value;
+        const enteredPeople = this.peopleInputEl.value;
+        if (enteredTitle.trim().length === 0 ||
+            enteredDescription.trim().length === 0 ||
+            enteredPeople.trim().length === 0) {
+            alert("Invalid input, please try again!");
+            return;
+        }
+        return [enteredTitle, enteredDescription, +enteredPeople];
+    }
+    clearInputs() {
+        this.titleInputEl.value = "";
+        this.descriptionInputEl.value = "";
+        this.peopleInputEl.value = "";
+    }
     submitHandler(e) {
         e.preventDefault();
         console.log(this);
+        const userInput = this.allUserInput();
+        if (Array.isArray(userInput)) {
+            const [title, desc, people] = userInput;
+            console.log(title, desc, people);
+            this.clearInputs();
+        }
     }
     config() {
         this.element.addEventListener("submit", this.submitHandler);

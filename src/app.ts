@@ -51,10 +51,40 @@ class App {
     this.attach();
   }
 
+  private allUserInput(): [string, string, number] | void {
+    const enteredTitle = this.titleInputEl.value;
+    const enteredDescription = this.descriptionInputEl.value;
+    const enteredPeople = this.peopleInputEl.value;
+
+    if (
+      enteredTitle.trim().length === 0 ||
+      enteredDescription.trim().length === 0 ||
+      enteredPeople.trim().length === 0
+    ) {
+      alert("Invalid input, please try again!");
+      return;
+    }
+
+    return [enteredTitle, enteredDescription, +enteredPeople];
+  }
+
+  private clearInputs() {
+    this.titleInputEl.value = "";
+    this.descriptionInputEl.value = "";
+    this.peopleInputEl.value = "";
+  }
+
   @AutoBind
   private submitHandler(e: Event) {
     e.preventDefault();
     console.log(this);
+    const userInput = this.allUserInput();
+
+    if (Array.isArray(userInput)) {
+      const [title, desc, people] = userInput;
+      console.log(title, desc, people);
+      this.clearInputs();
+    }
   }
 
   private config() {
