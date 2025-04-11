@@ -1,3 +1,39 @@
+interface Validatable {
+  value: string | number;
+  required?: boolean;
+  minLength?: number;
+  maxLength?: number;
+  min?: number;
+  max?: number;
+}
+
+function validate(validateInput: Validatable) {
+  let isValid = true;
+
+  if (validateInput.required)
+    isValid = isValid && validateInput.value.toString().trim().length !== 0;
+
+  if (
+    validateInput.minLength != null &&
+    typeof validateInput.value === "string"
+  )
+    isValid = isValid && validateInput.value.length > validateInput.minLength;
+
+  if (
+    validateInput.maxLength != null &&
+    typeof validateInput.value === "string"
+  )
+    isValid = isValid && validateInput.value.length < validateInput.maxLength;
+
+  if (validateInput.min != null && typeof validateInput.value === "number")
+    isValid = isValid && validateInput.value > validateInput.min;
+
+  if (validateInput.max != null && typeof validateInput.value === "number")
+    isValid = isValid && validateInput.value < validateInput.max;
+
+  return isValid;
+}
+
 function AutoBind(_: any, __: string, descriptor: PropertyDescriptor) {
   const originalMethod = descriptor.value;
 
@@ -56,10 +92,28 @@ class App {
     const enteredDescription = this.descriptionInputEl.value;
     const enteredPeople = this.peopleInputEl.value;
 
+    const titleValidatable: Validatable = {
+      value: enteredTitle,
+      required: true,
+    };
+
+    const descValidatable: Validatable = {
+      value: enteredTitle,
+      required: true,
+      minLength: 5,
+    };
+
+    const peopleValidatable: Validatable = {
+      value: +enteredTitle,
+      required: true,
+      min: 1,
+      max: 5,
+    };
+
     if (
-      enteredTitle.trim().length === 0 ||
-      enteredDescription.trim().length === 0 ||
-      enteredPeople.trim().length === 0
+      !validate(titleValidatable) &&
+      !validate(descValidatable) &&
+      !validate(peopleValidatable)
     ) {
       alert("Invalid input, please try again!");
       return;
@@ -77,7 +131,6 @@ class App {
   @AutoBind
   private submitHandler(e: Event) {
     e.preventDefault();
-    console.log(this);
     const userInput = this.allUserInput();
 
     if (Array.isArray(userInput)) {
