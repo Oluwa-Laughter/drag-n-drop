@@ -32,7 +32,27 @@ function AutoBind(_, __, descriptor) {
     };
     return adjustedDescriptor;
 }
-class App {
+class ProjectList {
+    constructor(type) {
+        this.type = type;
+        this.templateEl = document.getElementById("project-list");
+        this.hostEl = document.getElementById("app");
+        const importedNode = document.importNode(this.templateEl.content, true);
+        this.element = importedNode.firstElementChild;
+        this.element.id = `${this.type}-projects`;
+        this.attach();
+        this.renderContent();
+    }
+    renderContent() {
+        const listId = `${this.type}-projects-list`;
+        this.element.querySelector("ul").id = listId;
+        this.element.querySelector("h2").textContent = `${this.type.toUpperCase()} PROJECTS`;
+    }
+    attach() {
+        this.hostEl.insertAdjacentElement("beforeend", this.element);
+    }
+}
+class ProjectInput {
     constructor() {
         this.templateEl = document.getElementById("project-input");
         this.hostEl = document.getElementById("app");
@@ -95,6 +115,8 @@ class App {
 }
 __decorate([
     AutoBind
-], App.prototype, "submitHandler", null);
-const app = new App();
+], ProjectInput.prototype, "submitHandler", null);
+const projectInput = new ProjectInput();
+const activeProject = new ProjectList("active");
+const finishedProject = new ProjectList("finished");
 //# sourceMappingURL=app.js.map

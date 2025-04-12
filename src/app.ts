@@ -50,7 +50,45 @@ function AutoBind(_: any, __: string, descriptor: PropertyDescriptor) {
   return adjustedDescriptor;
 }
 
-class App {
+//  Project List class
+
+class ProjectList {
+  templateEl: HTMLTemplateElement;
+  hostEl: HTMLDivElement;
+  element: HTMLElement;
+
+  constructor(private type: "active" | "finished") {
+    this.templateEl = document.getElementById(
+      "project-list"
+    )! as HTMLTemplateElement;
+
+    this.hostEl = document.getElementById("app")! as HTMLDivElement;
+
+    const importedNode = document.importNode(this.templateEl.content, true);
+
+    this.element = importedNode.firstElementChild as HTMLElement;
+    this.element.id = `${this.type}-projects`;
+
+    this.attach();
+    this.renderContent();
+  }
+
+  private renderContent() {
+    const listId = `${this.type}-projects-list`;
+
+    this.element.querySelector("ul")!.id = listId;
+    this.element.querySelector(
+      "h2"
+    )!.textContent = `${this.type.toUpperCase()} PROJECTS`;
+  }
+
+  private attach() {
+    this.hostEl.insertAdjacentElement("beforeend", this.element);
+  }
+}
+
+// Project Input Class
+class ProjectInput {
   templateEl: HTMLTemplateElement;
   hostEl: HTMLDivElement;
   element: HTMLFormElement;
@@ -149,4 +187,7 @@ class App {
   }
 }
 
-const app = new App();
+const projectInput = new ProjectInput();
+
+const activeProject = new ProjectList("active");
+const finishedProject = new ProjectList("finished");
