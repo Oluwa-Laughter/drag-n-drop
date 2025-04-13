@@ -209,11 +209,9 @@ class ProjectItem
     event.dataTransfer!.effectAllowed = "move";
   }
 
-  dragEndHandler(_: DragEvent): void {
-    console.log("DragEnd");
-  }
+  dragEndHandler(_: DragEvent): void {}
 
-  configure(): void {
+  configure() {
     this.element.addEventListener("dragstart", this.dragStartHandler);
     this.element.addEventListener("dragend", this.dragEndHandler);
   }
