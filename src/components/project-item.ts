@@ -9,7 +9,7 @@
 import { AutoBind } from "../decorators/autobind.js";
 import { Draggable } from "../models/drag-drop.js";
 import { Project } from "../models/project.js";
-import { Component } from "./base-component.js";
+import Component from "./base-component.js";
 
 // Project Item Class
 export class ProjectItem

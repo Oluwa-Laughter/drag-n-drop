@@ -6,8 +6,8 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 import { AutoBind } from "../decorators/autobind.js";
 import { projectState } from "../state/project-state.js";
-import { validate } from "../utils/validation.js";
-import { Component } from "./base-component.js";
+import * as Validation from "../utils/validation.js";
+import Component from "./base-component.js";
 export class ProjectInput extends Component {
     constructor() {
         super("project-input", "app", true, "user-input");
@@ -39,9 +39,9 @@ export class ProjectInput extends Component {
             min: 1,
             max: 5,
         };
-        if (!validate(titleValidatable) &&
-            !validate(descValidatable) &&
-            !validate(peopleValidatable)) {
+        if (!Validation.validate(titleValidatable) &&
+            !Validation.validate(descValidatable) &&
+            !Validation.validate(peopleValidatable)) {
             alert("Invalid input, please try again!");
             return;
         }

@@ -1,4 +1,4 @@
-export class Component {
+export default class Component {
     constructor(templateElId, hostElId, insertAtStart, newElId) {
         this.templateEl = document.getElementById(templateElId);
         this.hostEl = document.getElementById(hostElId);
