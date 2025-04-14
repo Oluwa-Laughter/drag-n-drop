@@ -3,8 +3,8 @@
 /// <reference path="components/project-list.ts" />
 */
 
-import { ProjectInput } from "./components/project-input.js";
-import { ProjectList } from "./components/project-list.js";
+import { ProjectInput } from "./components/project-input";
+import { ProjectList } from "./components/project-list";
 
 new ProjectInput();
 new ProjectList("active");
